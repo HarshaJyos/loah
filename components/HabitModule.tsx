@@ -47,16 +47,16 @@ interface HabitModuleProps {
 }
 
 const COLORS = [
+  "var(--color-accent-coral)",
+  "var(--color-reward-amber)",
+  "var(--color-primary-teal)",
+  "var(--color-secondary-navy)",
+  "var(--color-tag-lavender)",
+  "var(--color-info-blue)",
+  "var(--color-neutral-slate)",
   "#ef4444",
-  "#f97316",
-  "#f59e0b",
-  "#10b981",
-  "#06b6d4",
-  "#3b82f6",
   "#8b5cf6",
-  "#ec4899",
-  "#64748b",
-  "#111827",
+  "#0ea5e9",
 ];
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -129,7 +129,7 @@ const ProgressRing = ({
   size = 32,
   strokeWidth = 3,
   children,
-  emptyColor = "#f3f4f6",
+  emptyColor = "var(--color-bg-mist)",
 }: {
   percentage: number;
   color: string;
@@ -194,7 +194,7 @@ const YearlyHeatmap: React.FC<{ habit: Habit }> = ({ habit }) => {
   }, []);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm">
+    <div className="bg-white border border-surface-sage rounded-3xl p-6 shadow-sm">
       <h3 className="text-lg font-bold text-gray-900 mb-4">
         Consistency Map (Last Year)
       </h3>
@@ -203,7 +203,7 @@ const YearlyHeatmap: React.FC<{ habit: Habit }> = ({ habit }) => {
           const dateStr = getLocalDateStr(day);
           const val = habit.history[dateStr] || 0;
           const isSkipped = val === -1;
-          let bgColor = "#f3f4f6";
+          let bgColor = "var(--color-bg-mist)";
           let opacity = 1;
           if (isSkipped) {
             bgColor = "#fee2e2";
@@ -233,7 +233,7 @@ const YearlyHeatmap: React.FC<{ habit: Habit }> = ({ habit }) => {
           return (
             <div
               key={dateStr}
-              className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-[2px] transition-all hover:scale-125 hover:ring-1 ring-black/20"
+              className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-[2px] transition-all hover:scale-125 hover:ring-1 ring-secondary-navy/20"
               style={{ backgroundColor: bgColor, opacity }}
               title={tooltip}
             ></div>
@@ -374,7 +374,7 @@ const CreateHabitModal: React.FC<{
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Morning Run"
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:border-black"
+                className="w-full bg-bg-mist border border-surface-sage rounded-xl px-4 py-2 focus:outline-none focus:border-secondary-navy"
               />
             </div>
             <div>
@@ -385,7 +385,7 @@ const CreateHabitModal: React.FC<{
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Motivation..."
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:border-black"
+                className="w-full bg-bg-mist border border-surface-sage rounded-xl px-4 py-2 focus:outline-none focus:border-secondary-navy"
               />
             </div>
             <div>
@@ -399,7 +399,7 @@ const CreateHabitModal: React.FC<{
                     onClick={() => setColor(c)}
                     className={`w-8 h-8 rounded-full transition-transform hover:scale-110 ${
                       color === c
-                        ? "ring-2 ring-offset-2 ring-black scale-110"
+                        ? "ring-2 ring-offset-2 ring-secondary-navy scale-110"
                         : ""
                     }`}
                     style={{ backgroundColor: c }}
@@ -410,7 +410,7 @@ const CreateHabitModal: React.FC<{
           </div>
 
           {/* Reminders Section */}
-          <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
+          <div className="bg-bg-mist p-4 rounded-xl border border-surface-sage">
             <div className="flex justify-between items-center mb-2">
               <label className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1">
                 <Bell size={12} /> Reminders
@@ -420,7 +420,7 @@ const CreateHabitModal: React.FC<{
               {reminders.map((r, idx) => (
                 <div
                   key={r.id}
-                  className="flex items-center gap-2 bg-white p-2 rounded-lg border border-gray-200"
+                  className="flex items-center gap-2 bg-white p-2 rounded-lg border border-surface-sage"
                 >
                   <Clock size={14} className="text-gray-400" />
                   <span className="text-sm font-medium flex-1">
@@ -442,7 +442,7 @@ const CreateHabitModal: React.FC<{
                   onChange={(e) =>
                     setNewReminderOffset(parseInt(e.target.value))
                   }
-                  className="bg-white border border-gray-200 rounded-lg p-2 text-sm flex-1"
+                  className="bg-white border border-surface-sage rounded-lg p-2 text-sm flex-1"
                 >
                   <option value={0}>At time of event</option>
                   <option value={5}>5 minutes before</option>
@@ -453,7 +453,7 @@ const CreateHabitModal: React.FC<{
                 </select>
                 <button
                   onClick={addReminder}
-                  className="px-3 py-2 bg-gray-100 hover:bg-black hover:text-white rounded-lg text-sm font-bold transition-colors"
+                  className="px-3 py-2 bg-bg-mist hover:bg-secondary-navy hover:text-white rounded-lg text-sm font-bold transition-colors"
                 >
                   Add
                 </button>
@@ -808,8 +808,8 @@ export const HabitModule: React.FC<HabitModuleProps> = ({
         <div className="flex-1 flex flex-col h-full overflow-hidden">
           <div className="flex-shrink-0 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 px-6 py-4 gap-4 bg-white z-10">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-                <CheckCircle className="text-black" size={28} /> Habits
+              <h2 className="text-2xl md:text-3xl font-bold text-secondary-navy tracking-tight flex items-center gap-3">
+                <CheckCircle className="text-primary-teal" size={28} /> Habits
               </h2>
               {showArchived && (
                 <span className="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full uppercase tracking-wider mt-1 inline-block">
@@ -836,7 +836,7 @@ export const HabitModule: React.FC<HabitModuleProps> = ({
               </button>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-black text-white px-3 md:px-5 py-2.5 rounded-xl font-medium shadow-lg hover:bg-gray-800 transition-all flex items-center gap-2 text-sm"
+                className="btn-primary shadow-xl shadow-primary-teal/20"
               >
                 <Plus size={18} />{" "}
                 <span className="hidden md:inline">New Habit</span>
@@ -1050,8 +1050,8 @@ const HabitCard: React.FC<{
       onClick={onClick}
       className={`bg-white border rounded-3xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all group cursor-pointer relative ${
         habit.isPinned
-          ? "border-black ring-1 ring-black shadow-md"
-          : "border-gray-200"
+          ? "border-secondary-navy ring-1 ring-secondary-navy shadow-md"
+          : "border-surface-sage"
       }`}
     >
       <div className="flex justify-between items-start mb-2">
@@ -1092,8 +1092,8 @@ const HabitCard: React.FC<{
             onClick={(e) => onTogglePin(e, habit)}
             className={`p-2 rounded-xl transition-all ${
               habit.isPinned
-                ? "text-black bg-gray-100"
-                : "text-gray-300 hover:text-black opacity-0 group-hover:opacity-100"
+                ? "text-secondary-navy bg-surface-sage/20"
+                : "text-neutral-slate hover:text-secondary-navy opacity-0 group-hover:opacity-100"
             }`}
             title={habit.isPinned ? "Unpin" : "Pin"}
           >
@@ -1105,7 +1105,7 @@ const HabitCard: React.FC<{
                 e.stopPropagation();
                 onStartFocus(habit);
               }}
-              className="p-2 text-gray-400 hover:text-white hover:bg-black rounded-xl transition-all"
+              className="p-2 text-neutral-slate hover:text-white hover:bg-secondary-navy rounded-xl transition-all"
               title="Start Focus Timer"
             >
               <Play size={16} fill="currentColor" />
@@ -1113,7 +1113,7 @@ const HabitCard: React.FC<{
           )}
           <button
             onClick={onEdit}
-            className="p-2 text-gray-300 hover:text-black opacity-0 group-hover:opacity-100 transition-all"
+            className="p-2 text-neutral-slate hover:text-secondary-navy opacity-0 group-hover:opacity-100 transition-all"
           >
             <Edit2 size={16} />
           </button>

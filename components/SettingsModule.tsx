@@ -23,9 +23,9 @@ export const SettingsModule: React.FC<SettingsModuleProps> = ({
   return (
     <div className="w-full h-full p-6 md:p-8 overflow-y-auto custom-scrollbar pb-24 animate-fade-in">
       <div className="max-w-3xl mx-auto space-y-8">
-        <div className="border-b border-gray-200 pb-6">
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <Database className="text-black" size={32} /> Data & Settings
+        <div className="border-b border-surface-sage/30 pb-6">
+          <h2 className="text-3xl font-bold text-secondary-navy tracking-tight flex items-center gap-3">
+            <Database className="text-primary-teal" size={32} /> Data & Settings
           </h2>
           <p className="text-gray-500 mt-2 text-lg hidden md:block">
             Manage your local data, backups, and application state.
@@ -33,13 +33,13 @@ export const SettingsModule: React.FC<SettingsModuleProps> = ({
         </div>
 
         {/* Data Management Section */}
-        <section className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm space-y-6">
+        <section className="bg-white border border-surface-sage/30 rounded-2xl p-8 shadow-sm space-y-6">
           <div className="flex items-center gap-3 mb-2">
-            <div className="bg-blue-50 p-2 rounded-lg text-blue-600">
+            <div className="bg-primary-teal/10 p-2 rounded-lg text-primary-teal">
               <HardDrive size={24} />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-900">
+              <h3 className="text-xl font-bold text-secondary-navy">
                 Backup & Restore
               </h3>
               <p className="text-gray-500 text-sm">
@@ -51,12 +51,12 @@ export const SettingsModule: React.FC<SettingsModuleProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               onClick={onExport}
-              className="flex items-center justify-center gap-3 p-4 border border-gray-200 rounded-xl hover:border-black hover:bg-gray-50 transition-all group text-left"
+              className="flex items-center justify-center gap-3 p-4 border border-surface-sage/30 rounded-xl hover:border-primary-teal hover:bg-bg-mist transition-all group text-left"
             >
-              <div className="bg-gray-100 p-3 rounded-full group-hover:bg-white transition-colors">
+              <div className="bg-bg-mist p-3 rounded-full group-hover:bg-white transition-colors">
                 <Download
                   size={24}
-                  className="text-gray-600 group-hover:text-black"
+                  className="text-neutral-slate group-hover:text-primary-teal"
                 />
               </div>
               <div>
@@ -69,17 +69,17 @@ export const SettingsModule: React.FC<SettingsModuleProps> = ({
               </div>
             </button>
 
-            <label className="flex items-center justify-center gap-3 p-4 border border-gray-200 rounded-xl hover:border-black hover:bg-gray-50 transition-all group text-left cursor-pointer relative">
+            <label className="flex items-center justify-center gap-3 p-4 border border-surface-sage/30 rounded-xl hover:border-primary-teal hover:bg-bg-mist transition-all group text-left cursor-pointer relative">
               <input
                 type="file"
                 accept=".json"
                 onChange={onImport}
                 className="hidden"
               />
-              <div className="bg-gray-100 p-3 rounded-full group-hover:bg-white transition-colors">
+              <div className="bg-bg-mist p-3 rounded-full group-hover:bg-white transition-colors">
                 <Upload
                   size={24}
-                  className="text-gray-600 group-hover:text-black"
+                  className="text-neutral-slate group-hover:text-primary-teal"
                 />
               </div>
               <div>
@@ -101,12 +101,12 @@ export const SettingsModule: React.FC<SettingsModuleProps> = ({
           </div>
 
           <div className="flex items-center gap-3 mb-2 relative z-10">
-            <div className="bg-white p-2 rounded-lg text-red-600 shadow-sm">
+            <div className="bg-white p-2 rounded-lg text-accent-coral shadow-sm">
               <AlertTriangle size={24} />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-red-700">Danger Zone</h3>
-              <p className="text-red-500 text-sm">
+              <h3 className="text-xl font-bold text-accent-coral">Danger Zone</h3>
+              <p className="text-accent-coral/60 text-sm">
                 Irreversible actions. Proceed with caution.
               </p>
             </div>

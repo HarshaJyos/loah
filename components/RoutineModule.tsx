@@ -279,8 +279,8 @@ export const RoutineModule: React.FC<RoutineModuleProps> = ({
       <div className="space-y-8">
         <div className="flex justify-between items-center border-b border-gray-200 pb-4">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-              Routines
+            <h2 className="text-3xl font-bold text-secondary-navy tracking-tight flex items-center gap-3">
+              <Timer className="text-primary-teal" size={32} /> Routines
             </h2>
             {showArchived && (
               <span className="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full uppercase tracking-wider mt-1 inline-block">
@@ -303,7 +303,7 @@ export const RoutineModule: React.FC<RoutineModuleProps> = ({
             </button>
             <button
               onClick={() => openEditor()}
-              className="bg-black hover:bg-gray-800 text-white px-3 md:px-5 py-2.5 rounded-xl flex items-center gap-2 transition-colors font-medium shadow-lg shadow-gray-200"
+              className="btn-primary shadow-xl shadow-primary-teal/20"
             >
               <Plus size={18} />{" "}
               <span className="hidden md:inline">New Flow</span>
@@ -314,7 +314,7 @@ export const RoutineModule: React.FC<RoutineModuleProps> = ({
         {/* Paused Routines Section */}
         {pausedRoutines.length > 0 && !showArchived && (
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-amber-500 font-bold uppercase text-xs tracking-wider px-1">
+            <div className="flex items-center gap-2 text-reward-amber font-bold uppercase text-xs tracking-wider px-1">
               <PauseCircle size={14} /> Paused In Progress
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -325,10 +325,10 @@ export const RoutineModule: React.FC<RoutineModuleProps> = ({
                 return (
                   <div
                     key={paused.id}
-                    className="bg-amber-50 border border-amber-100 rounded-2xl p-4 flex items-center justify-between group"
+                    className="bg-reward-amber/10 border border-reward-amber/20 rounded-2xl p-4 flex items-center justify-between group"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-amber-200 text-amber-700 flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-reward-amber/20 text-secondary-navy flex items-center justify-center shrink-0">
                         <Timer size={20} />
                       </div>
                       <div>
@@ -350,7 +350,7 @@ export const RoutineModule: React.FC<RoutineModuleProps> = ({
                         onClick={() =>
                           onResumeRoutine && onResumeRoutine(paused)
                         }
-                        className="bg-black text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-gray-800 transition-colors shadow-sm"
+                        className="bg-secondary-navy text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-secondary-navy/90 transition-all shadow-md shadow-secondary-navy/20"
                       >
                         Resume
                       </button>
@@ -389,8 +389,8 @@ export const RoutineModule: React.FC<RoutineModuleProps> = ({
                 onDrop={(e) => handleDrop(e, routine.id)}
                 className={`bg-white border rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group relative flex flex-col cursor-pointer h-[320px] ${
                   routine.isPinned
-                    ? "border-black ring-1 ring-black shadow-md"
-                    : "border-gray-200 hover:border-gray-300"
+                    ? "border-secondary-navy ring-1 ring-secondary-navy shadow-md"
+                    : "border-surface-sage hover:border-primary-teal/30"
                 }`}
                 onClick={() => onStartRoutine(routine.id)}
               >

@@ -93,8 +93,8 @@ export const BrainDumpModule: React.FC<BrainDumpModuleProps> = ({
       {/* Header */}
       <div className="flex flex-row justify-between items-center border-b border-gray-200 pb-4 shrink-0 gap-4">
         <div className="flex-1 min-w-0">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3 truncate">
-            <Brain className="text-black shrink-0" size={28} /> Brain Dump
+          <h2 className="text-2xl md:text-3xl font-bold text-secondary-navy tracking-tight flex items-center gap-3 truncate">
+            <Brain className="text-primary-teal shrink-0" size={28} /> Brain Dump
           </h2>
           {showArchived ? (
             <span className="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full uppercase tracking-wider mt-1 inline-block">
@@ -121,7 +121,7 @@ export const BrainDumpModule: React.FC<BrainDumpModuleProps> = ({
           </button>
           <button
             onClick={openModal}
-            className="bg-black text-white px-3 md:px-6 py-2.5 rounded-xl font-medium shadow-lg hover:bg-gray-800 hover:scale-105 transition-all flex items-center gap-2 text-sm md:text-base"
+            className="btn-primary shadow-xl shadow-primary-teal/20"
           >
             <Plus size={18} />{" "}
             <span className="hidden md:inline">New Idea</span>
@@ -138,7 +138,7 @@ export const BrainDumpModule: React.FC<BrainDumpModuleProps> = ({
               className="break-inside-avoid bg-white border border-gray-200 rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col relative overflow-hidden"
             >
               {/* Decorative Accent */}
-              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-yellow-100 to-transparent rounded-bl-full -mr-8 -mt-8 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-reward-amber/20 to-transparent rounded-bl-full -mr-8 -mt-8 opacity-50 group-hover:opacity-100 transition-opacity"></div>
 
               <div className="flex items-start justify-between mb-3 relative z-10">
                 <div className="bg-yellow-50 p-2 rounded-lg text-yellow-600 border border-yellow-100 group-hover:scale-110 transition-transform">
@@ -204,53 +204,53 @@ export const BrainDumpModule: React.FC<BrainDumpModuleProps> = ({
                 <div className="grid grid-cols-4 gap-2">
                   <button
                     onClick={() => onConvertToTask(dump)}
-                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg border border-gray-100 hover:border-blue-200 hover:bg-blue-50 group/btn transition-all"
+                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg border border-surface-sage/30 hover:border-primary-teal/50 hover:bg-primary-teal/10 group/btn transition-all"
                     title="To Task"
                   >
                     <ListTodo
                       size={16}
-                      className="text-gray-400 group-hover/btn:text-blue-600"
+                      className="text-neutral-slate group-hover/btn:text-primary-teal"
                     />
-                    <span className="text-[9px] font-bold text-gray-400 group-hover/btn:text-blue-600 uppercase">
+                    <span className="text-[9px] font-bold text-neutral-slate group-hover/btn:text-primary-teal uppercase">
                       Task
                     </span>
                   </button>
                   <button
                     onClick={() => onConvertToNote(dump)}
-                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg border border-gray-100 hover:border-yellow-200 hover:bg-yellow-50 group/btn transition-all"
+                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg border border-surface-sage/30 hover:border-reward-amber/50 hover:bg-reward-amber/10 group/btn transition-all"
                     title="To Note"
                   >
                     <StickyNote
                       size={16}
-                      className="text-gray-400 group-hover/btn:text-yellow-600"
+                      className="text-neutral-slate group-hover/btn:text-reward-amber"
                     />
-                    <span className="text-[9px] font-bold text-gray-400 group-hover/btn:text-yellow-600 uppercase">
+                    <span className="text-[9px] font-bold text-neutral-slate group-hover/btn:text-reward-amber uppercase">
                       Note
                     </span>
                   </button>
                   <button
                     onClick={() => onConvertToJournal(dump)}
-                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg border border-gray-100 hover:border-green-200 hover:bg-green-50 group/btn transition-all"
+                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg border border-surface-sage/30 hover:border-accent-coral/50 hover:bg-accent-coral/10 group/btn transition-all"
                     title="To Journal"
                   >
                     <BookOpen
                       size={16}
-                      className="text-gray-400 group-hover/btn:text-green-600"
+                      className="text-neutral-slate group-hover/btn:text-accent-coral"
                     />
-                    <span className="text-[9px] font-bold text-gray-400 group-hover/btn:text-green-600 uppercase">
+                    <span className="text-[9px] font-bold text-neutral-slate group-hover/btn:text-accent-coral uppercase">
                       Log
                     </span>
                   </button>
                   <button
                     onClick={() => onConvertToProject(dump)}
-                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg border border-gray-100 hover:border-indigo-200 hover:bg-indigo-50 group/btn transition-all"
+                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg border border-surface-sage/30 hover:border-secondary-navy/50 hover:bg-secondary-navy/10 group/btn transition-all"
                     title="To Project"
                   >
                     <Briefcase
                       size={16}
-                      className="text-gray-400 group-hover/btn:text-indigo-600"
+                      className="text-neutral-slate group-hover/btn:text-secondary-navy"
                     />
-                    <span className="text-[9px] font-bold text-gray-400 group-hover/btn:text-indigo-600 uppercase">
+                    <span className="text-[9px] font-bold text-neutral-slate group-hover/btn:text-secondary-navy uppercase">
                       Proj
                     </span>
                   </button>
@@ -343,7 +343,7 @@ export const BrainDumpModule: React.FC<BrainDumpModuleProps> = ({
               </button>
               <button
                 onClick={handleSave}
-                className="px-6 py-3 md:py-2.5 text-sm font-bold bg-black text-white rounded-xl hover:bg-gray-800 shadow-lg flex items-center gap-2 transition-all hover:gap-3"
+                className="px-6 py-3 md:py-2.5 text-sm font-bold bg-primary-teal text-white rounded-xl hover:bg-primary-teal/80 shadow-lg flex items-center gap-2 transition-all hover:gap-3"
               >
                 Save Idea <ArrowRight size={16} />
               </button>

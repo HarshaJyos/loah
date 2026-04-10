@@ -80,7 +80,7 @@ export const ActivityModule: React.FC<ActivityModuleProps> = ({
             title: t.title,
             subtitle: "Task Completed",
             icon: CheckCircle2,
-            color: "text-blue-500 bg-blue-50",
+            color: "text-primary-teal bg-primary-teal/10 border-primary-teal/20",
             item: t,
           });
         });
@@ -98,7 +98,7 @@ export const ActivityModule: React.FC<ActivityModuleProps> = ({
             title: s.routineTitle,
             subtitle: `${duration}m Focus Session`,
             icon: Zap,
-            color: "text-amber-500 bg-amber-50",
+            color: "text-accent-coral bg-accent-coral/10 border-accent-coral/20",
             item: s,
           });
         });
@@ -115,7 +115,7 @@ export const ActivityModule: React.FC<ActivityModuleProps> = ({
             title: j.title,
             subtitle: `Mood: ${j.mood}`,
             icon: Smile,
-            color: "text-purple-500 bg-purple-50",
+            color: "text-tag-lavender bg-tag-lavender/10 border-tag-lavender/20",
             item: j,
           });
         });
@@ -134,8 +134,8 @@ export const ActivityModule: React.FC<ActivityModuleProps> = ({
           >
             <ArrowLeft size={20} />
           </button>
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Activity className="text-emerald-500" /> Activity History
+          <h2 className="text-2xl font-bold text-secondary-navy flex items-center gap-2">
+            <Activity className="text-primary-teal" /> Activity History
           </h2>
         </div>
 
@@ -148,8 +148,8 @@ export const ActivityModule: React.FC<ActivityModuleProps> = ({
                   onClick={() => setFilter(f)}
                   className={`px-3 py-1.5 text-xs font-bold capitalize rounded-md transition-all ${
                     filter === f
-                      ? "bg-white shadow-sm text-black"
-                      : "text-gray-500 hover:text-gray-900"
+                      ? "bg-secondary-navy shadow-sm text-white"
+                      : "text-neutral-slate hover:text-secondary-navy"
                   }`}
                 >
                   {f === "all" ? "All" : f}
@@ -165,8 +165,8 @@ export const ActivityModule: React.FC<ActivityModuleProps> = ({
                 onClick={() => setRange(r)}
                 className={`px-3 py-1.5 text-xs font-bold capitalize rounded-md transition-all ${
                   range === r
-                    ? "bg-white shadow-sm text-black"
-                    : "text-gray-500 hover:text-gray-900"
+                    ? "bg-secondary-navy shadow-sm text-white"
+                    : "text-neutral-slate hover:text-secondary-navy"
                 }`}
               >
                 {r}
@@ -242,13 +242,13 @@ export const ActivityModule: React.FC<ActivityModuleProps> = ({
       {selectedActivity && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/20 backdrop-blur-sm animate-fade-in">
           <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">
+            <div className="px-6 py-4 border-b border-surface-sage/20 flex justify-between items-center bg-bg-mist/30">
+              <h2 className="text-sm font-bold text-secondary-navy uppercase tracking-wider">
                 Activity Details
               </h2>
               <button
                 onClick={() => setSelectedActivity(null)}
-                className="text-gray-400 hover:text-gray-900 hover:bg-gray-100 p-1 rounded-full transition-colors"
+                className="text-neutral-slate hover:text-secondary-navy hover:bg-surface-sage/20 p-1 rounded-full transition-colors"
               >
                 <X size={16} />
               </button>

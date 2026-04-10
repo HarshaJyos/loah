@@ -11,11 +11,12 @@ import {
   Brain,
   Briefcase,
   CheckCircle,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
   Minus,
   Plus,
+  Cloud,
+  CloudOff,
+  RefreshCw,
+  LogOut,
 } from "lucide-react";
 
 interface LayoutProps {
@@ -25,9 +26,10 @@ interface LayoutProps {
   miniPlayer?: React.ReactNode;
   uiScale: number;
   onScaleChange: (scale: number) => void;
+  syncStatus?: "idle" | "syncing" | "success" | "error";
+  onLogout: () => void;
 }
 
-// Icon Mapping for all views
 const VIEW_ICONS: Record<string, any> = {
   dashboard: LayoutDashboard,
   dump: Brain,
@@ -39,11 +41,8 @@ const VIEW_ICONS: Record<string, any> = {
   routines: PlayCircle,
   notes: StickyNote,
   journal: BookOpen,
-  settings: LayoutDashboard, // Fallback
-  activity: LayoutDashboard, // Fallback
 };
 
-// Mobile Navigation Stacks
 const MOBILE_NAV_GROUPS = [
   { id: "dash_group", views: ["dashboard"] as ViewState[] },
   { id: "capture_group", views: ["dump", "trash"] as ViewState[] },
@@ -59,6 +58,8 @@ export const Layout: React.FC<LayoutProps> = ({
   miniPlayer,
   uiScale,
   onScaleChange,
+  syncStatus = "idle",
+  onLogout,
 }) => {
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -73,42 +74,29 @@ export const Layout: React.FC<LayoutProps> = ({
     { id: "trash", label: "Trash", icon: Trash2 },
   ];
 
-  // Views that should take up 100% width/height without padding
-  const isFullWidthView =
-    currentView === "calendar" ||
-    currentView === "notes" ||
-    currentView === "projects" ||
-    currentView === "habits" ||
-    currentView === "dump" ||
-    currentView === "tasks";
+  const isFullWidthView = ["calendar", "notes", "projects", "habits", "dump", "tasks"].includes(currentView);
 
   const handleZoom = (direction: "in" | "out") => {
     const step = 0.1;
     const newScale = direction === "in" ? uiScale + step : uiScale - step;
-    onScaleChange(
-      Math.max(0.5, Math.min(1.5, parseFloat(newScale.toFixed(1))))
-    );
+    onScaleChange(Math.max(0.5, Math.min(1.5, parseFloat(newScale.toFixed(1)))));
   };
 
   const resetZoom = () => onScaleChange(1);
 
-  // Mobile Nav Logic
   const handleMobileNavClick = (views: ViewState[]) => {
     if (views.includes(currentView)) {
-      // Cycle to next view in stack
       const currentIndex = views.indexOf(currentView);
       const nextIndex = (currentIndex + 1) % views.length;
       onViewChange(views[nextIndex]);
     } else {
-      // Activate first view in stack
       onViewChange(views[0]);
     }
   };
 
   return (
-    // Apply Zoom to the wrapper. We must compensate height/width to prevent clipping when zoomed in.
     <div
-      className="fixed inset-0 bg-gray-50 text-gray-900 font-sans overflow-hidden flex transition-all duration-200 ease-out"
+      className="fixed inset-0 overflow-hidden flex transition-all duration-200 ease-out bg-bg-mist text-secondary-navy"
       style={{
         zoom: uiScale,
         height: `calc(100dvh / ${uiScale})`,
@@ -116,82 +104,89 @@ export const Layout: React.FC<LayoutProps> = ({
       }}
     >
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 p-6 shadow-[2px_0_24px_-12px_rgba(0,0,0,0.05)] z-[70] relative shrink-0 h-full">
-        <div className="flex items-center gap-3 mb-8 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-black flex items-center justify-center">
-            <span className="font-bold text-white">L</span>
+      <aside className="hidden md:flex flex-col w-64 border-r border-surface-sage p-6 bg-white z-[70] relative shrink-0 h-full shadow-sm">
+        <div className="flex items-center justify-between mb-8 shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-secondary-navy flex items-center justify-center">
+              <RefreshCw className="text-primary-teal" size={18} />
+            </div>
+            <h1 className="text-lg font-bold tracking-tight">ADHD Flow</h1>
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-gray-900">
-            LOAH
-          </h1>
+          
+          {/* Sync Status Icon */}
+          <div className="flex items-center gap-2" title={`Sync: ${syncStatus}`}>
+            {syncStatus === "syncing" && <RefreshCw size={14} className="animate-spin text-primary-teal" />}
+            {syncStatus === "success" && <Cloud size={14} className="text-primary-teal" />}
+            {syncStatus === "error" && <CloudOff size={14} className="text-accent-coral" />}
+            {syncStatus === "idle" && <Cloud size={14} className="text-neutral-slate" />}
+          </div>
         </div>
 
-        {/* Mini Player Section (if active) */}
         {miniPlayer && (
-          <div className="mb-6 animate-fade-in-down shrink-0">{miniPlayer}</div>
+          <div className="mb-6 animate-fade-in shrink-0">{miniPlayer}</div>
         )}
 
-        <nav className="flex-1 space-y-1 overflow-y-auto custom-scrollbar -mr-2 pr-2 min-h-0">
+        <nav className="flex-1 space-y-1 overflow-y-auto no-scrollbar -mr-2 pr-2 min-h-0">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => onViewChange(item.id as ViewState)}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 ${
                 currentView === item.id
-                  ? "bg-gray-100 text-black font-semibold"
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                  ? "bg-surface-sage text-secondary-navy font-bold shadow-sm"
+                  : "text-neutral-slate hover:bg-bg-mist hover:text-secondary-navy"
               }`}
             >
               <item.icon
-                size={20}
+                size={18}
                 strokeWidth={currentView === item.id ? 2.5 : 2}
               />
-              <span className="text-sm">{item.label}</span>
+              <span className="text-sm font-medium">{item.label}</span>
             </button>
           ))}
         </nav>
 
-        {/* Footer Zoom Controls - Counter Scaled to maintain size. Hidden in Focus Mode. */}
         {currentView !== "routine-player" && (
-          <div
-            className="mt-auto pt-6 border-t border-gray-100 shrink-0"
-            style={{ zoom: 1 / uiScale }}
-          >
-            <div className="bg-gray-50 rounded-xl p-1.5 flex items-center justify-between shadow-sm border border-gray-200">
+          <div className="mt-auto pt-6 border-t border-surface-sage shrink-0">
+            <div className="bg-bg-mist rounded-2xl p-1.5 flex items-center justify-between border border-surface-sage">
               <button
                 onClick={() => handleZoom("out")}
-                className="p-2 hover:bg-white hover:shadow-sm rounded-lg text-gray-500 hover:text-black transition-all"
-                title="Zoom Out"
+                className="p-2 hover:bg-white rounded-xl text-neutral-slate hover:text-secondary-navy transition-all"
               >
                 <Minus size={16} />
               </button>
               <span
-                className="text-xs font-bold text-gray-500 tabular-nums cursor-pointer select-none"
+                className="text-[10px] font-bold text-neutral-slate tabular-nums cursor-pointer"
                 onDoubleClick={resetZoom}
-                title="Double click to reset"
               >
                 {Math.round(uiScale * 100)}%
               </span>
               <button
                 onClick={() => handleZoom("in")}
-                className="p-2 hover:bg-white hover:shadow-sm rounded-lg text-gray-500 hover:text-black transition-all"
-                title="Zoom In"
+                className="p-2 hover:bg-white rounded-xl text-neutral-slate hover:text-secondary-navy transition-all"
               >
                 <Plus size={16} />
               </button>
             </div>
+            
+            <button
+              onClick={onLogout}
+              className="w-full mt-4 flex items-center gap-3 px-4 py-2.5 rounded-xl text-accent-coral hover:bg-red-50 transition-all font-bold text-sm"
+            >
+              <LogOut size={18} />
+              <span>Logout</span>
+            </button>
           </div>
         )}
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden relative bg-gray-50">
-        {/* Conditional container: Full width/height for certain modules, padded scrollable for others */}
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         <div
           className={`flex-1 flex flex-col h-full ${
             isFullWidthView
-              ? "overflow-hidden p-0"
-              : "overflow-y-auto p-4 md:p-6 pb-24 md:pb-12 custom-scrollbar"
+              ? "overflow-hidden"
+              : "overflow-y-auto p-4 md:p-8 pb-32 md:pb-12 no-scrollbar"
           }`}
         >
           {children}
@@ -199,35 +194,31 @@ export const Layout: React.FC<LayoutProps> = ({
       </main>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 pb-safe z-[70] h-16 shrink-0">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-surface-sage pb-safe z-[70] h-16 shrink-0 flex justify-around items-center px-2">
         {miniPlayer && (
-          <div className="absolute bottom-full left-0 right-0 p-2 bg-gradient-to-t from-white to-transparent pointer-events-none">
+          <div className="absolute bottom-full left-0 right-0 p-2 pointer-events-none">
             <div className="pointer-events-auto">{miniPlayer}</div>
           </div>
         )}
-        <div className="flex justify-around items-center h-full px-2 relative">
-          {MOBILE_NAV_GROUPS.map((group) => {
-            const isActive = group.views.includes(currentView);
+        {MOBILE_NAV_GROUPS.map((group) => {
+          const isActive = group.views.includes(currentView);
+          const viewToRender = isActive ? currentView : group.views[0];
+          const IconComponent = VIEW_ICONS[viewToRender] || LayoutDashboard;
 
-            // If active, show the icon of the current view.
-            // If inactive, show the icon of the FIRST view in the stack.
-            const viewToRender = isActive ? currentView : group.views[0];
-            const IconComponent = VIEW_ICONS[viewToRender] || LayoutDashboard;
-
-            return (
-              <button
-                key={group.id}
-                onClick={() => handleMobileNavClick(group.views)}
-                className={`flex flex-col items-center justify-center w-full h-full ${
-                  isActive ? "text-black" : "text-gray-400"
-                }`}
-              >
-                <IconComponent size={24} strokeWidth={isActive ? 2.5 : 2} />
-              </button>
-            );
-          })}
-        </div>
+          return (
+            <button
+              key={group.id}
+              onClick={() => handleMobileNavClick(group.views)}
+              className={`flex flex-col items-center justify-center w-full h-full transition-colors ${
+                isActive ? "text-primary-teal" : "text-neutral-slate"
+              }`}
+            >
+              <IconComponent size={24} strokeWidth={isActive ? 2.5 : 2} />
+            </button>
+          );
+        })}
       </nav>
     </div>
   );
 };
+

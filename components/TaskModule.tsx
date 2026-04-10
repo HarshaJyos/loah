@@ -53,16 +53,16 @@ type SortMode = "time" | "priority" | "alpha";
 type ViewMode = "list" | "board";
 
 const TASK_COLORS = [
+  "var(--color-accent-coral)",
+  "var(--color-reward-amber)",
+  "var(--color-primary-teal)",
+  "var(--color-secondary-navy)",
+  "var(--color-tag-lavender)",
+  "var(--color-info-blue)",
+  "var(--color-neutral-slate)",
   "#ef4444",
-  "#f97316",
-  "#f59e0b",
-  "#10b981",
-  "#06b6d4",
-  "#3b82f6",
   "#8b5cf6",
-  "#ec4899",
-  "#64748b",
-  "#111827",
+  "#0ea5e9",
 ];
 
 export const TaskModule: React.FC<TaskModuleProps> = ({
@@ -485,9 +485,9 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
         onClick={() => openModal(task)}
         className={`group bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col gap-3 relative ${
           isCompleted
-            ? "opacity-80 bg-gray-50 border-gray-200"
-            : "hover:border-black/20 border-gray-200"
-        } ${isOverdue && !isCompleted ? "border-red-200 bg-red-50/20" : ""}`}
+            ? "opacity-80 bg-bg-mist border-surface-sage"
+            : "hover:border-secondary-navy/20 border-surface-sage"
+        } ${isOverdue && !isCompleted ? "border-accent-coral/20 bg-accent-coral/5" : ""}`}
       >
         <div
           className="absolute left-0 top-4 bottom-4 w-1 rounded-r-full"
@@ -501,7 +501,7 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
               onToggleTask && onToggleTask(task.id);
             }}
             className={`mt-1 shrink-0 transition-all ${
-              isCompleted ? "text-green-500" : "text-gray-300 hover:text-black"
+              isCompleted ? "text-primary-teal" : "text-neutral-slate hover:text-secondary-navy"
             }`}
           >
             {isCompleted ? (
@@ -527,7 +527,7 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
                       e.stopPropagation();
                       onStartTask(task);
                     }}
-                    className="p-1.5 bg-black text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:scale-105"
+                    className="p-1.5 bg-secondary-navy text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:scale-105"
                     title="Start Focus"
                   >
                     <Play size={12} fill="currentColor" />
@@ -538,7 +538,7 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
                     e.stopPropagation();
                     onDeleteTask(task.id);
                   }}
-                  className="p-1.5 hover:bg-red-50 text-gray-300 hover:text-red-500 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                  className="p-1.5 hover:bg-accent-coral/5 text-neutral-slate hover:text-accent-coral rounded-lg transition-all opacity-0 group-hover:opacity-100"
                   title="Delete Task"
                 >
                   <Trash2 size={12} />
@@ -557,8 +557,8 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
                 <span
                   className={`text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 ${
                     isOverdue
-                      ? "bg-red-100 text-red-600"
-                      : "bg-gray-100 text-gray-500"
+                      ? "bg-accent-coral/10 text-accent-coral"
+                      : "bg-bg-mist text-neutral-slate"
                   }`}
                 >
                   {isOverdue && <AlertCircle size={10} />}
@@ -581,16 +581,16 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
               <span
                 className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
                   task.priority === "High"
-                    ? "text-red-600 bg-red-50"
+                    ? "text-accent-coral bg-accent-coral/10"
                     : task.priority === "Medium"
-                    ? "text-orange-600 bg-orange-50"
-                    : "text-blue-600 bg-blue-50"
+                    ? "text-reward-amber bg-reward-amber/10"
+                    : "text-primary-teal bg-primary-teal/10"
                 }`}
               >
                 {task.priority}
               </span>
               {project && (
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-600 flex items-center gap-1 max-w-[100px] truncate">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-surface-sage text-secondary-navy flex items-center gap-1 max-w-[100px] truncate">
                   <Briefcase size={10} /> {project.title}
                 </span>
               )}
@@ -806,7 +806,7 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
               <ListTodo size={20} />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 tracking-tight leading-none">
+              <h2 className="text-2xl font-bold text-secondary-navy tracking-tight leading-none">
                 Tasks
               </h2>
               <p className="text-xs text-gray-500 font-medium mt-1">
@@ -823,7 +823,7 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
 
           <button
             onClick={() => openModal()}
-            className="bg-black text-white w-10 h-10 md:w-auto md:px-4 md:py-2.5 rounded-xl font-bold shadow-lg hover:bg-gray-800 transition-all flex items-center justify-center gap-2 active:scale-95"
+            className="btn-primary shadow-xl shadow-primary-teal/20"
           >
             <Plus size={20} />{" "}
             <span className="hidden md:inline">New Task</span>
@@ -841,20 +841,20 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search tasks..."
-              className="w-full bg-gray-50 border border-gray-200 pl-9 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-black focus:bg-white transition-all"
+              className="w-full bg-bg-mist/30 border border-surface-sage/30 pl-9 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-primary-teal focus:bg-white transition-all"
             />
           </div>
 
           {/* Controls Scroll Container */}
           <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar pb-1 md:pb-0">
             {/* View Toggle */}
-            <div className="flex bg-gray-100 p-1 rounded-xl shrink-0">
+            <div className="flex bg-surface-sage/20 p-1 rounded-xl shrink-0">
               <button
                 onClick={() => setViewMode("list")}
                 className={`p-2 rounded-lg transition-all ${
                   viewMode === "list"
-                    ? "bg-white text-black shadow-sm"
-                    : "text-gray-400 hover:text-gray-600"
+                    ? "bg-white text-secondary-navy shadow-sm"
+                    : "text-neutral-slate hover:text-secondary-navy"
                 }`}
                 title="List View"
               >
@@ -864,8 +864,8 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
                 onClick={() => setViewMode("board")}
                 className={`p-2 rounded-lg transition-all ${
                   viewMode === "board"
-                    ? "bg-white text-black shadow-sm"
-                    : "text-gray-400 hover:text-gray-600"
+                    ? "bg-white text-secondary-navy shadow-sm"
+                    : "text-neutral-slate hover:text-secondary-navy"
                 }`}
                 title="Board View"
               >
@@ -995,14 +995,14 @@ export const TaskModule: React.FC<TaskModuleProps> = ({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Task Title"
-                  className="w-full text-xl font-bold text-gray-900 placeholder-gray-300 border-none p-0 focus:ring-0 focus:outline-none"
+                  className="w-full text-xl font-bold text-secondary-navy placeholder-neutral-slate/40 border-none p-0 focus:ring-0 focus:outline-none bg-transparent"
                   autoFocus
                 />
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Add details..."
-                  className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black min-h-[100px] resize-none"
+                  className="w-full bg-bg-mist/30 border border-surface-sage/30 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-teal min-h-[100px] resize-none"
                 />
               </div>
 

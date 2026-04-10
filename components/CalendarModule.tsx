@@ -20,7 +20,14 @@ interface CalendarModuleProps {
 type CalendarView = 'month' | 'week' | 'day';
 type CalendarMode = 'scheduled' | 'focus';
 
-const FOCUS_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4'];
+const FOCUS_COLORS = [
+  "hsl(174, 32%, 52%)", // primary-teal
+  "hsl(19, 100%, 68%)", // accent-coral
+  "hsl(35, 88%, 72%)", // reward-amber
+  "hsl(256, 56%, 75%)", // tag-lavender
+  "hsl(201, 10%, 53%)", // neutral-slate
+  "hsl(158, 42%, 48%)", // success
+];
 
 export const CalendarModule: React.FC<CalendarModuleProps> = ({ 
     tasks, routines = [], habits = [], projects = [], focusSessions = [], onUpdateTask, onStartTask, onScheduleRoutine, onStartRoutine, onUpdateRoutine, onScheduleHabit, onUnschedule
@@ -458,12 +465,12 @@ export const CalendarModule: React.FC<CalendarModuleProps> = ({
                     return (
                         <div 
                             key={day.toISOString()}
-                            className={`border-b border-r border-gray-100 p-1 relative flex flex-col gap-1 transition-colors ${!isSameMonth ? 'bg-gray-50/30 text-gray-300' : 'bg-white hover:bg-gray-50'}`}
+                            className={`border-b border-r border-surface-sage/30 p-1 relative flex flex-col gap-1 transition-colors ${!isSameMonth ? 'bg-bg-mist/30 text-neutral-slate/30' : 'bg-white hover:bg-bg-mist/50'}`}
                             onDragOver={handleDragOver}
                             onDrop={(e) => handleDropOnMonthCell(e, day)}
                         >
                             <div className="flex justify-center mb-1 shrink-0">
-                                <span className={`text-[10px] font-medium w-5 h-5 flex items-center justify-center rounded-full ${isToday ? 'bg-red-500 text-white' : ''}`}>
+                                <span className={`text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full ${isToday ? 'bg-accent-coral text-white shadow-sm shadow-accent-coral/20' : 'text-secondary-navy'}`}>
                                     {day.getDate()}
                                 </span>
                             </div>
@@ -578,7 +585,7 @@ export const CalendarModule: React.FC<CalendarModuleProps> = ({
 
                     {(isSameDay(now, days[0]) || days.length > 1) && (
                         <div className="absolute left-0 right-0 z-30 pointer-events-none" style={{ top: `${redLineTop}px` }}>
-                            <div className="h-[2px] bg-red-500 w-full shadow-[0_1px_2px_rgba(239,68,68,0.3)]"></div>
+                            <div className="h-[2px] bg-accent-coral w-full shadow-[0_1px_4px_rgba(255,138,91,0.4)]"></div>
                         </div>
                     )}
 
@@ -607,10 +614,10 @@ export const CalendarModule: React.FC<CalendarModuleProps> = ({
                                                     draggable={resizingTaskId !== task.id}
                                                     onDragStart={(e) => handleDragStart(e, task.id, 'task', 'grid')}
                                                     onClick={(e) => handleBlockClick(e, task, 'task')}
-                                                    className={`absolute left-0.5 right-0.5 md:left-1 md:right-1 rounded-md md:rounded-lg px-1 md:px-2 py-1 text-xs hover:scale-[1.01] active:scale-[0.99] shadow-sm transition-all z-20 overflow-hidden flex flex-col justify-start border border-black/5 group 
-                                                        ${resizingTaskId === task.id ? 'cursor-ns-resize !scale-100 z-30 shadow-xl ring-2 ring-black/20' : 'cursor-pointer'}
-                                                        ${isSelected ? 'ring-2 ring-black z-30 scale-[1.02] shadow-xl' : ''}
-                                                        ${task.isCompleted ? 'opacity-75 border-dashed saturate-75' : ''}
+                                                    className={`absolute left-0.5 right-0.5 md:left-1 md:right-1 rounded-md md:rounded-lg px-2 py-1 text-xs hover:scale-[1.01] active:scale-[0.99] shadow-sm transition-all z-20 overflow-hidden flex flex-col justify-start border border-black/5 group 
+                                                        ${resizingTaskId === task.id ? 'cursor-ns-resize !scale-100 z-30 shadow-xl ring-2 ring-secondary-navy/20' : 'cursor-pointer'}
+                                                        ${isSelected ? 'ring-2 ring-secondary-navy z-30 scale-[1.02] shadow-xl' : ''}
+                                                        ${task.isCompleted ? 'opacity-60 grayscale saturate-50' : ''}
                                                     `}
                                                     style={{ 
                                                         top: `${top}px`, 
@@ -755,7 +762,7 @@ export const CalendarModule: React.FC<CalendarModuleProps> = ({
                       <button onClick={() => setCurrentDate(new Date())} className="px-3 text-xs font-bold text-gray-700 hover:text-black uppercase tracking-wider">Today</button>
                       <button onClick={() => navigate('next')} className="p-1 hover:bg-white rounded-md text-gray-500 hover:text-black transition-colors shadow-sm hover:shadow"><ChevronRight size={16} /></button>
                   </div>
-                  <h2 className="text-lg md:text-xl font-bold text-gray-900 tracking-tight whitespace-nowrap">
+                  <h2 className="text-lg md:text-xl font-bold text-secondary-navy tracking-tight whitespace-nowrap">
                       {currentDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
                   </h2>
                </div>

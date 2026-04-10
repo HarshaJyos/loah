@@ -1,4 +1,6 @@
 import * as React from "react";
+import dynamic from "next/dynamic";
+const RichTextEditor = dynamic(() => import("./RichTextEditor"), { ssr: false });
 import { JournalEntry, Mood, Dump } from "../types";
 import {
   Save,
@@ -40,11 +42,11 @@ interface JournalModuleProps {
 }
 
 const MOODS: { id: Mood; icon: any; color: string; val: number }[] = [
-  { id: "awesome", icon: Laugh, color: "text-emerald-500", val: 5 },
-  { id: "good", icon: Smile, color: "text-blue-500", val: 4 },
-  { id: "neutral", icon: Meh, color: "text-gray-400", val: 3 },
-  { id: "bad", icon: Frown, color: "text-orange-500", val: 2 },
-  { id: "awful", icon: Annoyed, color: "text-red-500", val: 1 },
+  { id: "awesome", icon: Laugh, color: "text-primary-teal", val: 5 },
+  { id: "good", icon: Smile, color: "text-primary-teal/70", val: 4 },
+  { id: "neutral", icon: Meh, color: "text-neutral-slate", val: 3 },
+  { id: "bad", icon: Frown, color: "text-accent-coral/70", val: 2 },
+  { id: "awful", icon: Annoyed, color: "text-accent-coral", val: 1 },
 ];
 
 export const JournalModule: React.FC<JournalModuleProps> = ({
@@ -338,11 +340,11 @@ export const JournalModule: React.FC<JournalModuleProps> = ({
     <div className="w-full space-y-8 pb-20 px-4 md:px-0">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 pb-4 gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-3xl font-bold text-secondary-navy tracking-tight">
             Journal
           </h2>
           {showArchived && (
-            <span className="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full uppercase tracking-wider mt-1 inline-block">
+            <span className="text-[10px] font-bold text-accent-coral bg-accent-coral/10 px-2 py-0.5 rounded-full uppercase tracking-wider mt-1 inline-block">
               Archived View
             </span>
           )}
@@ -374,7 +376,7 @@ export const JournalModule: React.FC<JournalModuleProps> = ({
           </button>
           <button
             onClick={handleOpenNewEntry}
-            className="bg-black text-white px-3 md:px-5 py-2.5 rounded-xl font-medium shadow-lg hover:bg-gray-800 transition-colors flex items-center gap-2 whitespace-nowrap"
+            className="btn-primary shadow-xl"
           >
             <PenLine size={18} />{" "}
             <span className="hidden md:inline">Create Log</span>
@@ -382,13 +384,13 @@ export const JournalModule: React.FC<JournalModuleProps> = ({
         </div>
       </div>
 
-      <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
+      <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar no-scrollbar">
         <button
           onClick={() => setActiveFilter("all")}
-          className={`px-4 py-2 rounded-full text-xs font-bold transition-colors ${
+          className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
             activeFilter === "all"
-              ? "bg-black text-white"
-              : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+              ? "bg-secondary-navy text-white shadow-md shadow-secondary-navy/20"
+              : "bg-surface-sage/30 text-neutral-slate hover:bg-surface-sage/50"
           }`}
         >
           All
@@ -399,8 +401,8 @@ export const JournalModule: React.FC<JournalModuleProps> = ({
             onClick={() => setActiveFilter(m.id)}
             className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold transition-all border ${
               activeFilter === m.id
-                ? "bg-black text-white shadow-md border-transparent"
-                : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50"
+                ? "bg-secondary-navy text-white shadow-md border-transparent"
+                : "bg-white border-surface-sage text-neutral-slate hover:bg-surface-sage/20 shadow-sm"
             }`}
           >
             <m.icon
@@ -417,10 +419,10 @@ export const JournalModule: React.FC<JournalModuleProps> = ({
           groupedEntries.map((group) => (
             <div key={group.date}>
               <div className="flex items-center gap-4 mb-4">
-                <span className="bg-black text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                <span className="bg-secondary-navy text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
                   {group.date}
                 </span>
-                <div className="h-px bg-gray-200 flex-1"></div>
+                <div className="h-px bg-surface-sage/50 flex-1"></div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -445,10 +447,10 @@ export const JournalModule: React.FC<JournalModuleProps> = ({
                     <div key={entry.id} className="group h-full relative">
                       <div
                         onClick={() => setViewingEntryId(entry.id)}
-                        className={`h-full flex flex-col rounded-2xl shadow-sm hover:shadow-xl cursor-pointer transition-all duration-300 overflow-hidden border ${
+                        className={`h-full flex flex-col rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 cursor-pointer transition-all duration-300 overflow-hidden border ${
                           isDarkCard
                             ? "border-transparent"
-                            : "border-gray-200 hover:border-gray-300"
+                            : "border-surface-sage hover:border-primary-teal/30"
                         }`}
                         style={{ backgroundColor: bgColor, color: txtColor }}
                       >
@@ -499,9 +501,9 @@ export const JournalModule: React.FC<JournalModuleProps> = ({
                           </h4>
                           {entry.content && (
                             <p
-                              className={`text-sm line-clamp-4 opacity-80 font-normal whitespace-pre-wrap flex-1`}
+                              className={`text-sm line-clamp-4 opacity-80 font-normal flex-1`}
                             >
-                              {entry.content}
+                              {entry.content.replace(/<[^>]*>?/gm, "")}
                             </p>
                           )}
                         </div>
@@ -611,11 +613,11 @@ export const JournalModule: React.FC<JournalModuleProps> = ({
                 </div>
               )}
 
-              <textarea
+              <RichTextEditor
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={setContent}
                 placeholder="Capture your thoughts..."
-                className="w-full flex-1 min-h-[200px] md:min-h-[250px] bg-transparent text-base md:text-lg text-gray-700 placeholder-gray-400 focus:outline-none resize-none leading-relaxed custom-scrollbar"
+                className="flex-1 min-h-[250px]"
               />
             </div>
 
@@ -960,16 +962,17 @@ const JournalDetailView: React.FC<{
         )}
 
         {isEditing ? (
-          <textarea
+          <RichTextEditor
             value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full h-[50vh] resize-none bg-transparent text-lg leading-loose text-gray-800 focus:outline-none custom-scrollbar p-2"
+            onChange={setContent}
+            className="w-full min-h-[50vh]"
             placeholder="Write something..."
           />
         ) : (
-          <div className="text-lg leading-loose text-gray-800 whitespace-pre-wrap max-w-none prose prose-lg prose-gray">
-            {content}
-          </div>
+          <div 
+            className="text-lg leading-loose text-gray-800 max-w-none prose prose-lg prose-gray ql-editor"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
         )}
       </div>
     </div>

@@ -1,4 +1,6 @@
 import * as React from "react";
+import dynamic from "next/dynamic";
+const RichTextEditor = dynamic(() => import("./RichTextEditor"), { ssr: false });
 import { Note, NoteItem, Dump } from "../types";
 import {
   Pin,
@@ -28,15 +30,15 @@ interface NotesModuleProps {
 }
 
 const COLORS = [
-  "#ffffff",
-  "#fecaca",
-  "#fed7aa",
-  "#fef08a",
-  "#bbf7d0",
-  "#bfdbfe",
-  "#ddd6fe",
-  "#fbcfe8",
-  "#e5e7eb",
+  "#ffffff", // White
+  "hsl(174, 32%, 94%)", // primary-teal light
+  "hsl(19, 100%, 94%)", // accent-coral light
+  "hsl(35, 88%, 94%)", // reward-amber light
+  "hsl(256, 56%, 94%)", // tag-lavender light
+  "hsl(201, 10%, 94%)", // neutral-slate light
+  "hsl(158, 42%, 94%)", // success-green light
+  "hsl(217, 91%, 94%)", // info-blue light
+  "hsl(225, 20%, 96%)", // surface-sage extra light
 ];
 
 // --- Reusable Components ---
@@ -134,17 +136,17 @@ export const NoteEditorModal: React.FC<{
             {titleLabel || (initialNote?.id ? "Edit Note" : "New Note")}
           </h3>
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsPinned(!isPinned)}
-              className={`p-2 rounded-full transition-colors ${
-                isPinned
-                  ? "bg-black text-white"
-                  : "hover:bg-black/5 text-gray-500"
-              }`}
-              title={isPinned ? "Unpin" : "Pin"}
-            >
-              <Pin size={18} fill={isPinned ? "currentColor" : "none"} />
-            </button>
+              <button
+                onClick={() => setIsPinned(!isPinned)}
+                className={`p-2 rounded-full transition-colors ${
+                  isPinned
+                    ? "bg-secondary-navy text-white shadow-md shadow-secondary-navy/20"
+                    : "hover:bg-secondary-navy/10 text-neutral-slate"
+                }`}
+                title={isPinned ? "Unpin" : "Pin"}
+              >
+                <Pin size={18} fill={isPinned ? "currentColor" : "none"} />
+              </button>
             <button
               onClick={onClose}
               className="text-gray-500 hover:text-black hover:bg-black/5 p-1 rounded-full transition-colors"
@@ -181,11 +183,11 @@ export const NoteEditorModal: React.FC<{
             placeholder="Title"
             className="w-full bg-transparent text-2xl font-bold text-gray-900 placeholder-gray-400 focus:outline-none"
           />
-          <textarea
+          <RichTextEditor
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={setContent}
             placeholder="Start typing..."
-            className="w-full bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none resize-none min-h-[120px] leading-relaxed"
+            className="flex-1"
           />
           {(showChecklist || listItems.length > 0) && (
             <div className="space-y-2 border-t border-black/5 pt-4">
@@ -310,7 +312,7 @@ export const NoteEditorModal: React.FC<{
             </button>
             <button
               onClick={handleSave}
-              className="px-6 py-2 text-sm font-bold text-white bg-black hover:bg-gray-800 rounded-lg transition-colors shadow-lg"
+              className="px-6 py-2 text-sm font-bold text-white bg-primary-teal hover:bg-primary-teal/80 rounded-xl transition-all shadow-lg shadow-primary-teal/20"
             >
               Save Note
             </button>
@@ -351,10 +353,10 @@ export const NoteCard: React.FC<{
           </h3>
           <button
             onClick={(e) => onPin(e, note)}
-            className={`absolute top-4 right-4 p-1.5 rounded-full transition-colors z-10 ${
+            className={`absolute top-4 right-4 p-1.5 rounded-full transition-all z-10 ${
               note.isPinned
-                ? "bg-black text-white"
-                : "text-gray-300 hover:text-black hover:bg-black/5"
+                ? "bg-secondary-navy text-white shadow-md"
+                : "text-neutral-slate/40 hover:text-secondary-navy hover:bg-secondary-navy/5"
             }`}
           >
             <Pin size={14} fill={note.isPinned ? "currentColor" : "none"} />
@@ -411,7 +413,7 @@ export const NoteCard: React.FC<{
             </div>
           ) : (
             <p className="text-sm text-gray-600 line-clamp-6 whitespace-pre-wrap">
-              {note.content}
+              {note.content.replace(/<[^>]*>?/gm, "")}
             </p>
           )}
         </div>
@@ -579,8 +581,8 @@ export const NotesModule: React.FC<NotesModuleProps> = ({
     <div className="w-full h-full p-6 md:p-8 overflow-y-auto custom-scrollbar pb-24 bg-white flex flex-col">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 pb-4 mb-6 gap-4 shrink-0">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <StickyNote className="text-black" size={32} /> Notes
+          <h2 className="text-3xl font-bold text-secondary-navy tracking-tight flex items-center gap-3">
+            <StickyNote className="text-primary-teal" size={32} /> Notes
           </h2>
           {showArchived && (
             <span className="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full uppercase tracking-wider mt-1 inline-block">
@@ -618,7 +620,7 @@ export const NotesModule: React.FC<NotesModuleProps> = ({
               setEditingNoteId(null);
               setIsModalOpen(true);
             }}
-            className="bg-black text-white px-3 md:px-5 py-2.5 rounded-xl font-medium shadow-lg hover:bg-gray-800 transition-all flex items-center gap-2 whitespace-nowrap"
+            className="btn-primary shadow-xl shadow-primary-teal/20"
           >
             <Plus size={18} />{" "}
             <span className="hidden md:inline">New Note</span>

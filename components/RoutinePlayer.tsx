@@ -387,14 +387,14 @@ export const RoutinePlayer: React.FC<RoutinePlayerProps> = ({
                   cx="50%"
                   cy="50%"
                   r="46%"
-                  stroke={isOvertime ? "#ef4444" : "#10b981"}
+                  stroke={isOvertime ? "#ef4444" : "var(--color-primary-teal)"}
                   strokeWidth="8"
                   fill="transparent"
                   strokeDasharray={2 * Math.PI * 140}
                   pathLength={100}
                   strokeDashoffset={100 - progress}
                   strokeLinecap="round"
-                  className="transition-all duration-1000 ease-linear"
+                  className="transition-all duration-1000 ease-linear shadow-[0_0_20px_rgba(95,168,163,0.3)]"
                   style={{ strokeDasharray: "289%" }}
                 />
               </svg>
@@ -428,7 +428,7 @@ export const RoutinePlayer: React.FC<RoutinePlayerProps> = ({
 
               <button
                 onClick={handleStepCompleteInternal}
-                className="h-16 px-12 bg-white hover:bg-zinc-200 text-black rounded-full font-bold text-xl flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+                className="h-16 px-12 bg-primary-teal hover:bg-primary-teal/80 text-white rounded-full font-bold text-xl flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(95,168,163,0.5)]"
               >
                 <Check size={28} strokeWidth={3} />
                 Done
@@ -631,18 +631,18 @@ export const MiniPlayer: React.FC<{
   };
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 p-3 rounded-2xl shadow-xl flex items-center gap-3 w-full max-w-sm mx-auto backdrop-blur-md animate-fade-in-up">
+    <div className="bg-secondary-navy border border-surface-sage/20 p-3 rounded-2xl shadow-2xl flex items-center gap-3 w-full max-w-sm mx-auto backdrop-blur-md animate-fade-in-up">
       <div
         className="relative w-10 h-10 shrink-0 cursor-pointer group"
         onClick={onTogglePlay}
       >
         <svg className="w-full h-full transform -rotate-90">
-          <circle cx="50%" cy="50%" r="18" stroke="#333" strokeWidth="3" fill="transparent" />
+          <circle cx="50%" cy="50%" r="18" stroke="rgba(255,255,255,0.1)" strokeWidth="3" fill="transparent" />
           <circle
             cx="50%"
             cy="50%"
             r="18"
-            stroke={isOvertime ? "#ef4444" : "#10b981"}
+            stroke={isOvertime ? "#ef4444" : "var(--color-primary-teal)"}
             strokeWidth="3"
             fill="transparent"
             strokeDasharray={2 * Math.PI * 18}
@@ -650,7 +650,7 @@ export const MiniPlayer: React.FC<{
               2 * Math.PI * 18 - (Math.min(100, progress) / 100) * (2 * Math.PI * 18)
             }
             strokeLinecap="round"
-            className="transition-all duration-300 ease-linear"
+            className="transition-all duration-300 ease-linear shadow-[0_0_10px_rgba(95,168,163,0.3)]"
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center text-white">

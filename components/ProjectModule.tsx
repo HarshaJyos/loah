@@ -50,16 +50,16 @@ interface ProjectModuleProps {
 }
 
 const PROJECT_COLORS = [
-  "#3b82f6",
-  "#8b5cf6",
-  "#ec4899",
-  "#ef4444",
-  "#f97316",
-  "#f59e0b",
-  "#10b981",
-  "#06b6d4",
-  "#6366f1",
-  "#14b8a6",
+  "hsl(174, 32%, 52%)", // primary-teal
+  "hsl(19, 100%, 68%)", // accent-coral
+  "hsl(35, 88%, 72%)", // reward-amber
+  "hsl(256, 56%, 75%)", // tag-lavender
+  "hsl(201, 10%, 53%)", // neutral-slate
+  "hsl(158, 42%, 48%)", // success
+  "hsl(217, 91%, 60%)", // info
+  "hsl(225, 30%, 35%)", // sage-dark
+  "hsl(210, 30%, 45%)", // muted-blue
+  "hsl(280, 40%, 60%)", // purple
 ];
 
 export const ProjectModule: React.FC<ProjectModuleProps> = ({
@@ -309,8 +309,8 @@ export const ProjectModule: React.FC<ProjectModuleProps> = ({
       <div className="flex flex-col gap-6 border-b border-gray-200 pb-6 mb-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-              <Briefcase className="text-black" size={32} /> Projects
+            <h2 className="text-3xl font-bold text-secondary-navy tracking-tight flex items-center gap-3">
+              <Briefcase className="text-primary-teal" size={32} /> Projects
             </h2>
             {showArchived && (
               <span className="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full uppercase tracking-wider mt-1 inline-block">
@@ -338,7 +338,7 @@ export const ProjectModule: React.FC<ProjectModuleProps> = ({
             </button>
             <button
               onClick={() => openModal()}
-              className="bg-black text-white px-3 md:px-6 py-2.5 rounded-xl font-medium shadow-lg hover:bg-gray-800 hover:scale-105 transition-all flex items-center gap-2"
+              className="btn-primary shadow-xl shadow-primary-teal/20"
             >
               <Plus size={18} />{" "}
               <span className="hidden md:inline">New Project</span>
@@ -354,8 +354,8 @@ export const ProjectModule: React.FC<ProjectModuleProps> = ({
               onClick={() => setStatusFilter(filter as any)}
               className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                 statusFilter === filter
-                  ? "bg-black text-white"
-                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  ? "bg-secondary-navy text-white shadow-md shadow-secondary-navy/20"
+                  : "bg-bg-mist text-neutral-slate hover:bg-surface-sage/50"
               }`}
             >
               {filter.replace("-", " ")}
@@ -380,8 +380,8 @@ export const ProjectModule: React.FC<ProjectModuleProps> = ({
               onClick={() => setViewingProjectId(project.id)}
               className={`bg-white border rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer relative overflow-hidden ${
                 project.isPinned
-                  ? "border-black ring-1 ring-black"
-                  : "border-gray-200"
+                  ? "border-secondary-navy ring-1 ring-secondary-navy"
+                  : "border-surface-sage hover:border-primary-teal/30"
               }`}
             >
               <div
@@ -403,10 +403,10 @@ export const ProjectModule: React.FC<ProjectModuleProps> = ({
                     onClick={(e) => handleCycleStatus(e, project)}
                     className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border flex items-center gap-1 transition-all hover:opacity-80 active:scale-95 ${
                       project.status === "completed"
-                        ? "bg-green-50 text-green-600 border-green-100"
+                        ? "bg-primary-teal/10 text-primary-teal border-primary-teal/20"
                         : project.status === "on-hold"
-                        ? "bg-amber-50 text-amber-600 border-amber-100"
-                        : "bg-gray-50 text-gray-500 border-gray-100"
+                        ? "bg-accent-coral/10 text-accent-coral border-accent-coral/20"
+                        : "bg-bg-mist text-neutral-slate border-surface-sage"
                     }`}
                     title="Click to cycle status"
                   >
@@ -662,7 +662,7 @@ export const ProjectModule: React.FC<ProjectModuleProps> = ({
               </button>
               <button
                 onClick={handleSave}
-                className="px-6 py-2 text-sm font-bold bg-black text-white rounded-lg hover:bg-gray-800"
+                className="btn-primary"
               >
                 Save Project
               </button>

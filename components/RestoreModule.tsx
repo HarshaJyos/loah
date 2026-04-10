@@ -131,19 +131,19 @@ export const RestoreModule: React.FC<RestoreModuleProps> = ({
   const getIcon = (type: string) => {
     switch (type) {
       case "task":
-        return <CheckSquare size={16} />;
+        return <CheckSquare className="text-primary-teal" size={16} />;
       case "routine":
-        return <PlayCircle size={16} />;
+        return <PlayCircle className="text-tag-lavender" size={16} />;
       case "journal":
-        return <BookOpen size={16} />;
+        return <BookOpen className="text-accent-coral" size={16} />;
       case "note":
-        return <StickyNote size={16} />;
+        return <StickyNote className="text-reward-amber" size={16} />;
       case "dump":
-        return <Brain size={16} />;
+        return <Brain className="text-info-blue" size={16} />;
       case "project":
-        return <Briefcase size={16} />;
+        return <Briefcase className="text-primary-teal" size={16} />;
       case "habit":
-        return <CheckCircle size={16} />;
+        return <CheckCircle className="text-success-green" size={16} />;
       default:
         return <Trash2 size={16} />;
     }
@@ -175,8 +175,8 @@ export const RestoreModule: React.FC<RestoreModuleProps> = ({
       {/* Header & Data Actions */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 pb-4 mb-6 gap-4 shrink-0">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <Trash2 className="text-black" size={28} /> Trash & Data
+          <h2 className="text-2xl md:text-3xl font-bold text-secondary-navy tracking-tight flex items-center gap-3">
+            <Trash2 className="text-primary-teal" size={28} /> Trash & Data
           </h2>
           <p className="text-gray-500 mt-1 text-sm hidden md:block">
             Restore deleted items or manage your data.
@@ -187,7 +187,7 @@ export const RestoreModule: React.FC<RestoreModuleProps> = ({
           {onExport && (
             <button
               onClick={onExport}
-              className="bg-white border border-gray-200 hover:border-black hover:bg-gray-50 text-gray-700 px-3 py-2.5 rounded-xl font-medium transition-all flex items-center gap-2 shadow-sm"
+              className="bg-white border border-surface-sage/30 hover:border-primary-teal hover:bg-bg-mist text-secondary-navy px-3 py-2.5 rounded-xl font-medium transition-all flex items-center gap-2 shadow-sm"
               title="Export Data"
             >
               <Download size={18} />{" "}
@@ -196,7 +196,7 @@ export const RestoreModule: React.FC<RestoreModuleProps> = ({
           )}
           {onImport && (
             <label
-              className="bg-white border border-gray-200 hover:border-black hover:bg-gray-50 text-gray-700 px-3 py-2.5 rounded-xl font-medium transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+              className="bg-white border border-surface-sage/30 hover:border-primary-teal hover:bg-bg-mist text-secondary-navy px-3 py-2.5 rounded-xl font-medium transition-all flex items-center gap-2 shadow-sm cursor-pointer"
               title="Import Data"
             >
               <input
@@ -239,10 +239,10 @@ export const RestoreModule: React.FC<RestoreModuleProps> = ({
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
+            className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
               activeTab === tab
-                ? "bg-black text-white"
-                : "bg-white border border-gray-200 text-gray-500 hover:bg-gray-50"
+                ? "bg-secondary-navy text-white shadow-md shadow-secondary-navy/20"
+                : "bg-white border border-surface-sage/30 text-neutral-slate hover:bg-bg-mist"
             }`}
           >
             {tab}

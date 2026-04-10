@@ -44,11 +44,11 @@ const MOOD_VALUES: Record<Mood, number> = {
 };
 
 const MOOD_COLORS: Record<Mood, string> = {
-  awesome: "#10b981", // Emerald
-  good: "#3b82f6", // Blue
-  neutral: "#9ca3af", // Gray
-  bad: "#f97316", // Orange
-  awful: "#ef4444", // Red
+  awesome: "var(--color-primary-teal)", 
+  good: "var(--color-tag-lavender)", 
+  neutral: "var(--color-surface-sage)",
+  bad: "var(--color-accent-coral)", 
+  awful: "#ef4444", 
 };
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -272,10 +272,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
         percent: total > 0 ? (value / total) * 100 : 0,
         color:
           label === "Habits"
-            ? "#10b981"
+            ? "var(--color-primary-teal)"
             : label === "Tasks"
-            ? "#3b82f6"
-            : "#a78bfa",
+            ? "var(--color-accent-coral)"
+            : "var(--color-tag-lavender)",
       }))
       .sort((a, b) => b.value - a.value);
   }, [filteredSessions]);
@@ -302,7 +302,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           title: t.title,
           subtitle: "Task Completed",
           icon: CheckCircle2,
-          color: "text-blue-500 bg-blue-50",
+          color: "text-primary-teal bg-bg-mist",
           item: t,
         });
       });
@@ -314,7 +314,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         title: s.routineTitle,
         subtitle: `${formatDurationShort(s.durationSeconds)} Focus`,
         icon: Zap,
-        color: "text-amber-500 bg-amber-50",
+        color: "text-reward-amber bg-bg-mist",
         item: s,
       });
     });
@@ -328,7 +328,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           title: j.title,
           subtitle: `Mood: ${j.mood}`,
           icon: Smile,
-          color: "text-purple-500 bg-purple-50",
+          color: "text-tag-lavender bg-bg-mist",
           item: j,
         });
       });
@@ -357,7 +357,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             }}
           >
             {d.value > 0 && (
-              <div className="opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-black text-white text-[10px] font-bold px-2 py-1 rounded whitespace-nowrap z-10 pointer-events-none transition-opacity">
+              <div className="opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-secondary-navy text-white text-[10px] font-bold px-2 py-1 rounded whitespace-nowrap z-10 pointer-events-none transition-opacity">
                 {d.value} Activities
               </div>
             )}
@@ -382,7 +382,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             }}
           >
             {d.value > 0 && (
-              <div className="opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-black text-white text-[10px] font-bold px-2 py-1 rounded whitespace-nowrap z-10 pointer-events-none transition-opacity">
+              <div className="opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-secondary-navy text-white text-[10px] font-bold px-2 py-1 rounded whitespace-nowrap z-10 pointer-events-none transition-opacity">
                 Score: {d.value.toFixed(1)}
               </div>
             )}
@@ -396,10 +396,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
     <div className="w-full h-full p-4 md:p-8 space-y-6 animate-fade-in pb-32 max-w-7xl mx-auto">
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            Dashboard
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
+            Ready when you are.
           </h1>
-          <p className="text-gray-500 mt-1 font-medium">
+          <p className="text-neutral-slate mt-2 font-medium">
             {now.toLocaleDateString("en-US", {
               weekday: "long",
               month: "long",
@@ -414,8 +414,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
               onClick={() => setRange(r)}
               className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                 range === r
-                  ? "bg-black text-white shadow-md"
-                  : "text-gray-400 hover:text-black hover:bg-gray-50"
+                  ? "bg-secondary-navy text-white shadow-md"
+                  : "text-neutral-slate hover:text-secondary-navy hover:bg-bg-mist"
               }`}
             >
               {r}
@@ -427,62 +427,50 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <button
           onClick={() => onQuickAction("dump")}
-          className="bg-yellow-50 hover:bg-yellow-100 border border-yellow-100 p-4 rounded-3xl flex flex-col items-start gap-3 transition-all group active:scale-95"
+          className="bg-white hover:bg-surface-sage border border-surface-sage p-6 rounded-2xl flex flex-col items-start gap-3 transition-all group active:scale-95 shadow-sm"
         >
-          <div className="bg-yellow-200 p-2.5 rounded-2xl text-yellow-700 group-hover:scale-110 transition-transform">
+          <div className="bg-surface-sage p-2.5 rounded-2xl text-secondary-navy group-hover:scale-110 transition-transform">
             <Brain size={24} />
           </div>
           <div className="text-left">
-            <span className="block font-bold text-gray-900 text-lg">
-              Brain Dump
-            </span>
-            <span className="text-xs text-gray-500 font-medium">
-              Unload your mind
-            </span>
+            <span className="block font-bold text-lg">Brain Dump</span>
+            <span className="text-xs text-neutral-slate font-medium">Clear your mind</span>
           </div>
         </button>
         <button
           onClick={() => onQuickAction("task")}
-          className="bg-blue-50 hover:bg-blue-100 border border-blue-100 p-4 rounded-3xl flex flex-col items-start gap-3 transition-all group active:scale-95"
+          className="bg-white hover:bg-surface-sage border border-surface-sage p-6 rounded-2xl flex flex-col items-start gap-3 transition-all group active:scale-95 shadow-sm"
         >
-          <div className="bg-blue-200 p-2.5 rounded-2xl text-blue-700 group-hover:scale-110 transition-transform">
+          <div className="bg-bg-mist p-2.5 rounded-2xl text-primary-teal group-hover:scale-110 transition-transform">
             <Plus size={24} />
           </div>
           <div className="text-left">
-            <span className="block font-bold text-gray-900 text-lg">
-              Quick Task
-            </span>
-            <span className="text-xs text-gray-500 font-medium">Add to-do</span>
+            <span className="block font-bold text-lg">Quick Task</span>
+            <span className="text-xs text-neutral-slate font-medium">Capture now</span>
           </div>
         </button>
         <button
           onClick={() => onQuickAction("focus")}
-          className="bg-purple-50 hover:bg-purple-100 border border-purple-100 p-4 rounded-3xl flex flex-col items-start gap-3 transition-all group active:scale-95"
+          className="bg-white hover:bg-tag-lavender border border-tag-lavender p-6 rounded-2xl flex flex-col items-start gap-3 transition-all group active:scale-95 shadow-sm"
         >
-          <div className="bg-purple-200 p-2.5 rounded-2xl text-purple-700 group-hover:scale-110 transition-transform">
+          <div className="bg-tag-lavender p-2.5 rounded-2xl text-white group-hover:scale-110 transition-transform">
             <Zap size={24} fill="currentColor" />
           </div>
           <div className="text-left">
-            <span className="block font-bold text-gray-900 text-lg">
-              Focus Now
-            </span>
-            <span className="text-xs text-gray-500 font-medium">
-              Go to Routines
-            </span>
+            <span className="block font-bold text-lg">Focus State</span>
+            <span className="text-xs text-neutral-slate font-medium">Start session</span>
           </div>
         </button>
         <button
           onClick={() => onQuickAction("journal")}
-          className="bg-emerald-50 hover:bg-emerald-100 border border-emerald-100 p-4 rounded-3xl flex flex-col items-start gap-3 transition-all group active:scale-95"
+          className="bg-white hover:bg-surface-sage border border-surface-sage p-6 rounded-2xl flex flex-col items-start gap-3 transition-all group active:scale-95 shadow-sm"
         >
-          <div className="bg-emerald-200 p-2.5 rounded-2xl text-emerald-700 group-hover:scale-110 transition-transform">
+          <div className="bg-reward-amber p-2.5 rounded-2xl text-white group-hover:scale-110 transition-transform">
             <Smile size={24} />
           </div>
           <div className="text-left">
-            <span className="block font-bold text-gray-900 text-lg">
-              Log Mood
-            </span>
-            <span className="text-xs text-gray-500 font-medium">Check in</span>
+            <span className="block font-bold text-lg">Mood Check</span>
+            <span className="text-xs text-neutral-slate font-medium">How are you?</span>
           </div>
         </button>
       </section>
@@ -492,11 +480,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
         <div className="lg:col-span-2 bg-white border border-gray-200 rounded-[2rem] p-6 md:p-8 shadow-sm flex flex-col min-h-[300px]">
           <div className="flex justify-between items-center mb-2">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-black rounded-xl text-white">
+              <div className="p-2 bg-secondary-navy rounded-xl text-white">
                 <BarChart3 size={20} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">
-                Activity Level
+              <h3 className="text-xl font-bold">
+                Energy Spent
               </h3>
             </div>
             <div className="text-right">
@@ -514,7 +502,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <div className="w-full h-px bg-gray-100 border-t border-dashed border-gray-200"></div>
               <div className="w-full h-px bg-gray-100 border-t border-dashed border-gray-200"></div>
             </div>
-            {renderBarChart(activityChartData, maxActivity, "#000000")}
+            {renderBarChart(activityChartData, maxActivity, "var(--color-primary-teal)")}
           </div>
           <div className="flex justify-between mt-2 pt-2 border-t border-gray-100 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
             {activityChartData
@@ -530,10 +518,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
         {/* 2. Breakdown Panel */}
         <div className="bg-white border border-gray-200 rounded-[2rem] p-6 md:p-8 shadow-sm flex flex-col min-h-[300px]">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600">
+            <div className="p-2 bg-bg-mist rounded-xl text-tag-lavender">
               <PieChart size={20} />
             </div>
-            <h3 className="text-xl font-bold text-gray-900">Focus Breakdown</h3>
+            <h3 className="text-xl font-bold">Focus Points</h3>
           </div>
           <div className="flex-1 flex flex-col justify-center items-center relative gap-6">
             {breakdownData.length === 0 ? (
@@ -592,10 +580,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
         <div className="lg:col-span-2 bg-white border border-gray-200 rounded-[2rem] p-6 md:p-8 shadow-sm flex flex-col min-h-[300px]">
           <div className="flex justify-between items-center mb-2">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-orange-50 rounded-xl text-orange-600">
+              <div className="p-2 bg-bg-mist rounded-xl text-reward-amber">
                 <Smile size={20} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Mood Trends</h3>
+              <h3 className="text-xl font-bold">Resilience Track</h3>
             </div>
           </div>
           <div className="flex-1 w-full relative">
@@ -626,14 +614,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
         <div className="lg:row-span-2 bg-white border border-gray-200 rounded-[2rem] p-6 md:p-8 shadow-sm flex flex-col h-auto">
           <div className="flex justify-between items-center mb-6 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-emerald-50 rounded-xl text-emerald-600">
+              <div className="p-2 bg-bg-mist rounded-xl text-primary-teal">
                 <Activity size={20} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Activity Feed</h3>
+              <h3 className="text-xl font-bold">Recent Flow</h3>
             </div>
             <button
               onClick={() => onViewChange("activity")}
-              className="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg transition-colors"
+              className="text-xs font-bold text-primary-teal hover:text-secondary-navy bg-bg-mist px-3 py-1.5 rounded-lg transition-colors border border-surface-sage"
             >
               View All
             </button>
@@ -644,7 +632,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className="space-y-6 pb-4">
               {timelineData.map((item, i) => (
                 <button
-                  key={`${item.type}-${item.id}`}
+                  key={`${item.type}-${item.id}-${i}`}
                   onClick={() =>
                     setSelectedActivity({
                       id: item.id,
