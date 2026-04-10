@@ -27,7 +27,7 @@ interface RoutinePlayerProps {
   routine: Routine;
   steps: RoutineStep[];
   currentStepIndex: number;
-  timeElapsedInStep: number;
+  timeElapsed: number;
   isPlaying: boolean;
   tasks: Task[];
   habits?: Habit[];
@@ -47,7 +47,7 @@ export const RoutinePlayer: React.FC<RoutinePlayerProps> = ({
   routine,
   steps,
   currentStepIndex,
-  timeElapsedInStep,
+  timeElapsed,
   isPlaying,
   tasks,
   habits = [],
@@ -66,12 +66,12 @@ export const RoutinePlayer: React.FC<RoutinePlayerProps> = ({
     durationSeconds: 0,
   };
   const stepDuration = currentStep.durationSeconds;
-  const timeLeft = stepDuration - timeElapsedInStep;
+  const timeLeft = stepDuration - timeElapsed;
   const isOvertime = timeLeft < 0;
 
   const progress =
     stepDuration > 0
-      ? Math.min(100, (timeElapsedInStep / stepDuration) * 100)
+      ? Math.min(100, (timeElapsed / stepDuration) * 100)
       : 100;
 
   const [isMobileSequenceOpen, setIsMobileSequenceOpen] = React.useState(false);
@@ -107,10 +107,10 @@ export const RoutinePlayer: React.FC<RoutinePlayerProps> = ({
 
   // Sound: Play start sound on first play
   React.useEffect(() => {
-    if (currentStepIndex === 0 && timeElapsedInStep === 0 && isPlaying) {
+    if (currentStepIndex === 0 && timeElapsed === 0 && isPlaying) {
       playSound("TIMER_START");
     }
-  }, [currentStepIndex, timeElapsedInStep, isPlaying]);
+  }, [currentStepIndex, timeElapsed, isPlaying]);
 
   // Sound: Timer end and overtime
   React.useEffect(() => {

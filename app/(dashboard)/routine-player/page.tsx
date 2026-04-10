@@ -26,7 +26,7 @@ export default function RoutinePlayerPage() {
       routine={activeSession.routine}
       steps={activeSession.routine.steps}
       currentStepIndex={activeSession.currentStepIndex}
-      timeElapsedInStep={activeSession.timeElapsed}
+      timeElapsed={activeSession.timeElapsed}
       isPlaying={activeSession.isPlaying}
       tasks={tasks}
       habits={habits}

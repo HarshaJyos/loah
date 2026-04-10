@@ -98,10 +98,10 @@ export interface PausedRoutine {
     id: string; 
     routine: Routine;
     currentStepIndex: number;
-    timeElapsedInStep: number;
-    stepLogs: StepLog[];
-    steps: RoutineStep[]; 
+    timeElapsed: number;
     pausedAt: number;
+    stepLogs?: StepLog[];
+    steps?: RoutineStep[]; 
 }
 
 export type Mood = 'awesome' | 'good' | 'neutral' | 'bad' | 'awful';

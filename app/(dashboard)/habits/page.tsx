@@ -6,7 +6,7 @@ import { HabitModule } from "../../../components/HabitModule";
 export default function HabitsPage() {
   const { 
     habits, addHabit, updateHabit, deleteHabit, 
-    archiveHabit, unarchiveHabit, updateProgress, startFocus 
+    archiveHabit, unarchiveHabit, updateProgress, startHabitFocus 
   } = useApp();
 
   return (
@@ -18,7 +18,7 @@ export default function HabitsPage() {
       onArchiveHabit={archiveHabit}
       onUnarchiveHabit={unarchiveHabit}
       onUpdateProgress={updateProgress}
-      onStartFocus={startFocus}
+      onStartFocus={startHabitFocus}
     />
   );
 }

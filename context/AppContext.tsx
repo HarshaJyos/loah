@@ -70,7 +70,7 @@ interface AppContextType {
   deleteHabit: (id: string) => void;
   archiveHabit: (id: string) => void;
   unarchiveHabit: (id: string) => void;
-  updateProgress: (habitId: string, value: number, dateStr: string) => void;
+  updateProgress: (id: string, dateStr: string, value: number) => void;
 
   addProject: (project: Project) => void;
   updateProject: (project: Project) => void;
@@ -114,6 +114,7 @@ interface AppContextType {
   unscheduleItem: (id: string, type: 'task' | 'routine') => void;
   scheduleRoutine: (templateId: string, startTime: number) => void;
   scheduleHabit: (habitId: string, startTime: number) => void;
+  startHabitFocus: (habit: Habit) => void;
 
   restoreItem: (id: string, type: string) => void;
   deleteForever: (id: string, type: string) => void;
@@ -262,7 +263,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const toggleTask = (id: string) => setTasks(prev => prev.map(t => t.id === id ? { ...t, isCompleted: !t.isCompleted, completedAt: !t.isCompleted ? Date.now() : undefined } : t));
   const archiveTask = (id: string) => setTasks(prev => prev.map(t => t.id === id ? { ...t, archivedAt: Date.now() } : t));
   const unarchiveTask = (id: string) => setTasks(prev => prev.map(t => t.id === id ? { ...t, archivedAt: undefined } : t));
-  const startTask = (task: Task) => playSound("click"); // Placeholder
+  const startTask = (task: Task) => playSound("TIMER_START"); // Placeholder
 
   // Habit Handlers
   const addHabit = (habit: Habit) => setHabits(prev => [...prev, habit]);
@@ -270,9 +271,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const deleteHabit = (id: string) => setHabits(prev => prev.map(h => h.id === id ? { ...h, deletedAt: Date.now() } : h));
   const archiveHabit = (id: string) => setHabits(prev => prev.map(h => h.id === id ? { ...h, archivedAt: Date.now() } : h));
   const unarchiveHabit = (id: string) => setHabits(prev => prev.map(h => h.id === id ? { ...h, archivedAt: undefined } : h));
-  const updateProgress = (habitId: string, value: number, dateStr: string) => {
+  const updateProgress = (id: string, dateStr: string, value: number) => {
     setHabits(prev => prev.map(h => {
-      if (h.id !== habitId) return h;
+      if (h.id !== id) return h;
       const newHistory = { ...h.history, [dateStr]: value };
       return { ...h, history: newHistory };
     }));
@@ -303,7 +304,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       isMinimized: false
     });
   };
-  const resumeRoutine = (paused: PausedRoutine) => setPausedRoutines(prev => prev.filter(p => p.id !== paused.id));
+  const resumeRoutine = (paused: PausedRoutine) => {
+    setPausedRoutines(prev => prev.filter(p => p.id !== paused.id));
+    setActiveSession({
+      routine: paused.routine,
+      currentStepIndex: paused.currentStepIndex,
+      timeElapsed: paused.timeElapsed,
+      isPlaying: true,
+      isMinimized: false
+    });
+  };
   const discardPaused = (id: string) => setPausedRoutines(prev => prev.filter(p => p.id !== id));
 
   // Note Handlers
@@ -382,7 +392,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // Misc
-  const startFocus = (session: FocusSession) => setFocusSessions(prev => [...prev, session]);
+  const addFocusSession = (session: FocusSession) => setFocusSessions(prev => [...prev, session]);
+  
+  const startHabitFocus = (habit: Habit) => {
+    const newRoutine: Routine = {
+      id: `habit-${Date.now()}`,
+      title: habit.title,
+      color: habit.color,
+      type: 'repeatable',
+      steps: [{ id: `step-${Date.now()}`, title: habit.title, durationSeconds: (habit.goal.target || 5) * 60 }]
+    };
+    setActiveSession({
+      routine: newRoutine,
+      currentStepIndex: 0,
+      timeElapsed: 0,
+      isPlaying: true,
+      isMinimized: false
+    });
+  };
+
   const unscheduleItem = (id: string, type: 'task' | 'routine') => {
     if (type === 'task') setTasks(prev => prev.map(t => t.id === id ? { ...t, startTime: undefined } : t));
     else setRoutines(prev => prev.map(r => r.id === id ? { ...r, startTime: undefined } : r));
@@ -564,7 +592,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       accessToken, isSyncing, isInitialLoading, syncStatus,
       tasks, routines, journalEntries, notes, dumps, projects, habits, focusSessions, pausedRoutines, uiScale,
       handleLoginSuccess,
-      setTasks, setRoutines, setJournalEntries, setNotes, setDumps, setProjects, setHabits, setFocusSessions, setPausedRoutines, setUiScale,
+      setUiScale,
       addTask, updateTask, deleteTask, toggleTask, startTask, archiveTask, unarchiveTask,
       addHabit, updateHabit, deleteHabit, archiveHabit, unarchiveHabit, updateProgress,
       addProject, updateProject, deleteProject, archiveProject, unarchiveProject, reorderProjects,
@@ -572,7 +600,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       addNote, updateNote, deleteNote, archiveNote, unarchiveNote, reorderNotes,
       addJournalEntry, updateJournalEntry, deleteJournalEntry, archiveJournalEntry, unarchiveJournalEntry,
       addDump, deleteDump, archiveDump, unarchiveDump, handleConvertToTask, handleConvertToNote, handleConvertToJournal, handleConvertToProject,
-      startFocus, unscheduleItem, scheduleRoutine, scheduleHabit,
+      startFocus: addFocusSession, 
+      startHabitFocus,
+      unscheduleItem, scheduleRoutine, scheduleHabit,
       restoreItem, deleteForever, deleteActivity,
       exportData, importData, resetApp, logout,
       activeSession, setActiveSession, updateSessionTime, nextStep, togglePlay, minimizeSession, exitSession, saveSession
