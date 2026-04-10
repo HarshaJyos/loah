@@ -3,7 +3,7 @@
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { AppProvider } from "../context/AppContext";
 
-const CLIENT_ID = "677644907778-kvch3brqbu9f5tf2uqvg1jvakjm32s40.apps.googleusercontent.com";
+const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
